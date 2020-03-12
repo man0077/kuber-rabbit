@@ -2,18 +2,18 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    description: rabbit-4
+    description: rabbit-25
   generation: 5
   labels:
-    k8s-app: rabbit-4
-  name: rabbit-4
+    k8s-app: rabbit-25
+  name: rabbit-25
   namespace: preprod
 spec:
   replicas: 1
   revisionHistoryLimit: 30
   selector:
     matchLabels:
-      k8s-app: rabbit-4
+      k8s-app: rabbit-25
   strategy:
     rollingUpdate:
       maxSurge: 50%
@@ -22,11 +22,11 @@ spec:
   template:
     metadata:
       annotations:
-        description: rabbit-4
+        description: rabbit-25
       creationTimestamp: null
       labels:
-        k8s-app: rabbit-4
-      name: rabbit-4
+        k8s-app: rabbit-25
+      name: rabbit-25
     spec:
       containers:
       - env:
@@ -40,19 +40,19 @@ spec:
           value: "11111111111195a"
         image: rabbitmq:3.7.9-management-alpine
         imagePullPolicy: IfNotPresent
-        name: rabbit-4
+        name: rabbit-25
         resources: {}
         securityContext:
           privileged: false
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
         volumeMounts:
-         - name: rabbit-4
-           mountPath: /etc/sec/rabbit-4
+         - name: rabbit-25
+           mountPath: /etc/sec/rabbit-25
       volumes:
-        - name: rabbit-4
+        - name: rabbit-25
           secret:
-             secretName: rabbit-4
+             secretName: rabbit-25
       dnsPolicy: ClusterFirst
       imagePullSecrets:
       - name: registry

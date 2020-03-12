@@ -38,7 +38,7 @@ spec:
           value: "/"
         - name: RABBITMQ_ERLANG_COOKIE
           value: "11111111111195a"
-        image: rabbit-2mq:3.7.9-management-alpine
+        image: rabbitmq:3.7.9-management-alpine
         imagePullPolicy: IfNotPresent
         name: rabbit-2
         resources: {}
