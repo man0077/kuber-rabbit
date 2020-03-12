@@ -9,7 +9,7 @@ metadata:
   name: haproxy-rabbit
   namespace: preprod
 spec:
-  replicas: 1
+  replicas: 10
   revisionHistoryLimit: 30
   selector:
     matchLabels:
