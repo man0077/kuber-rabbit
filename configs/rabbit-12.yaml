@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    description: rabbit-12
+  generation: 5
+  labels:
+    k8s-app: rabbit-12
+  name: rabbit-12
+  namespace: preprod
+spec:
+  replicas: 1
+  revisionHistoryLimit: 30
+  selector:
+    matchLabels:
+      k8s-app: rabbit-12
+  strategy:
+    rollingUpdate:
+      maxSurge: 50%
+      maxUnavailable: 50%
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        description: rabbit-12
+      creationTimestamp: null
+      labels:
+        k8s-app: rabbit-12
+      name: rabbit-12
+    spec:
+      containers:
+      - env:
+        - name: RABBITMQ_DEFAULT_PASS_FILE
+          value: "/etc/sec/rabbit/rabbit"
+        - name: RABBITMQ_DEFAULT_USER
+          value: "111111"
+        - name: RABBITMQ_DEFAULT_VHOST
+          value: "/"
+        - name: RABBITMQ_ERLANG_COOKIE
+          value: "11111111111195a"
+        image: rabbit-12mq:3.7.9-management-alpine
+        imagePullPolicy: IfNotPresent
+        name: rabbit-12
+        resources: {}
+        securityContext:
+          privileged: false
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+         - name: rabbit-12
+           mountPath: /etc/sec/rabbit-12
+      volumes:
+        - name: rabbit-12
+          secret:
+             secretName: rabbit-12
+      dnsPolicy: ClusterFirst
+      imagePullSecrets:
+      - name: registry
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30

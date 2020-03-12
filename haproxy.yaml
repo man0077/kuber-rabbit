@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    description: haproxy-rabbit
+  generation: 5
+  labels:
+    k8s-app: haproxy-rabbit
+  name: haproxy-rabbit
+  namespace: preprod
+spec:
+  replicas: 1
+  revisionHistoryLimit: 30
+  selector:
+    matchLabels:
+      k8s-app: haproxy-rabbit
+  strategy:
+    rollingUpdate:
+      maxSurge: 50%
+      maxUnavailable: 50%
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        description: haproxy-rabbit
+      creationTimestamp: null
+      labels:
+        k8s-app: haproxy-rabbit
+      name: haproxy-rabbit
+    spec:
+      containers:
+      - env:
+        - name: data
+          value: Debug
+        image: haproxy:1.9-alpine
+        imagePullPolicy: IfNotPresent
+        name: haproxy-rabbit
+        resources: {}
+        securityContext:
+          privileged: false
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+         - name: haproxy-rabbit
+           mountPath: /usr/local/etc/haproxy/haproxy.cfg
+      volumes:
+        - name: haproxy-rabbit
+          configMap:
+             name: haproxy-rabbit
+      dnsPolicy: ClusterFirst
+      imagePullSecrets:
+      - name: registry
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
